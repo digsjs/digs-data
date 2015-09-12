@@ -6,7 +6,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "digs-utils": "devel",
+    "digs-common": "^0.2.2-9",
     "thinky": "^2.1.6"
   },
   "devDependencies": {
