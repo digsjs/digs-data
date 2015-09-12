@@ -6,19 +6,20 @@ let Promise = require('digs-common').Promise;
 
 function digsDataSuite(DigsData) {
   let sandbox;
-  let digs = {
-    namespace: 'digs',
-    project: 'home',
-    settings: {
-      app: {
-        namespace: 'digs',
-        project: 'home'
-      }
-    }
-  };
+  let digs;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create('DigsData');
+    digs = {
+      namespace: 'digs',
+      project: 'home',
+      settings: {
+        app: {
+          namespace: 'digs',
+          project: 'home'
+        }
+      }
+    };
   });
 
   afterEach(function() {
@@ -54,11 +55,14 @@ function digsDataSuite(DigsData) {
     let data;
 
     beforeEach(function() {
-      db.connection = {
+      db.db = {
         dbReady: sandbox.stub().returns(Promise.resolve()),
-        createModel: sandbox.stub().returns(function() {})
+        createModel: sandbox.stub().returns(function() {
+        })
       };
+      sandbox.spy(db, 'connect');
       data = DigsData({}, digs);
+      sandbox.stub(data, 'info');
     });
 
     describe('connect()', function() {
@@ -67,18 +71,47 @@ function digsDataSuite(DigsData) {
       });
 
       it('should have a non-null db property', function() {
-        return expect(data.connect()).to.eventually.equal(db.connection);
+        return expect(data.connect()).to.eventually.equal(db.db);
+      });
+
+      it('should call db.connect()', function() {
+        return data.connect()
+          .then(function() {
+            expect(db.connect).to.have.been.calledOnce;
+          });
+      });
+
+      it('should not call db.connect() again if connected', function() {
+        return data.connect()
+          .then(function() {
+            return data.connect();
+          })
+          .then(function() {
+            expect(db.connect).to.have.been.calledOnce;
+          });
+      });
+
+      it('should emit a "connected" event', function(done) {
+        data.on('connected', function(database) {
+          expect(database).to.equal(db.db);
+          done();
+        });
+        data.connect();
       });
     });
 
     describe('model()', function() {
+      let connection;
       beforeEach(function() {
-        data.connect().createModel = sandbox.stub();
+        return data.connect()
+          .then(function(conn) {
+            connection = conn;
+          });
       });
 
       it('should call db.createModel()', function() {
         data.model();
-        expect(db.connection.createModel).to.have.been.calledOnce;
+        expect(connection.createModel).to.have.been.calledOnce;
       });
     });
   });
