@@ -18,7 +18,8 @@ function digsDataSuite(DigsData) {
           namespace: 'digs',
           project: 'home'
         }
-      }
+      },
+      log: sandbox.stub()
     };
   });
 
@@ -30,7 +31,7 @@ function digsDataSuite(DigsData) {
     expect(DigsData).to.be.a('function');
   });
 
-  describe('refs', function() {
+  describe('ref', function() {
     let data;
 
     beforeEach(function() {
@@ -50,7 +51,7 @@ function digsDataSuite(DigsData) {
     });
   });
 
-  describe('methods', function() {
+  describe('method', function() {
     let db = require('../lib/db');
     let data;
 
@@ -70,8 +71,11 @@ function digsDataSuite(DigsData) {
         expect(data.connect).to.be.a('function');
       });
 
-      it('should have a non-null db property', function() {
-        return expect(data.connect()).to.eventually.equal(db.db);
+      it('should create a non-null db property', function() {
+        return expect(data.connect()).to.eventually.equal(data)
+          .then(function() {
+            expect(data.db).not.to.be.null;
+          });
       });
 
       it('should call db.connect()', function() {
@@ -101,17 +105,17 @@ function digsDataSuite(DigsData) {
     });
 
     describe('model()', function() {
-      let connection;
+      let db_;
       beforeEach(function() {
         return data.connect()
-          .then(function(conn) {
-            connection = conn;
+          .then(function() {
+            db_ = data.db;
           });
       });
 
       it('should call db.createModel()', function() {
         data.model();
-        expect(connection.createModel).to.have.been.calledOnce;
+        expect(db_.createModel).to.have.been.calledOnce;
       });
     });
   });
