@@ -3,11 +3,15 @@
   "version": "0.1.0",
   "description": "",
   "main": "lib/index.js",
-  "author": "",
+  "author": "Christopher Hiller <boneskull@boneskull.com>",
   "license": "MIT",
   "dependencies": {
-    "digs-common": "^0.2.2-9",
+    "digs-common": "devel",
     "thinky": "^2.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digsjs/digs-data.git"
   },
   "devDependencies": {
     "chai": "^3.2.0",
@@ -23,6 +27,7 @@
     "grunt-dev-update": "^1.4.0",
     "grunt-eslint": "^17.1.0",
     "grunt-mocha-istanbul": "^3.0.1",
+    "hapi": "^10.0.0",
     "istanbul-harmony": "^0.3.16",
     "jit-grunt": "^0.9.1",
     "load-grunt-config": "^0.17.2",
