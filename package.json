@@ -27,7 +27,7 @@
     "grunt-dev-update": "^1.4.0",
     "grunt-eslint": "^17.1.0",
     "grunt-mocha-istanbul": "^3.0.1",
-    "hapi": "^10.0.0",
+    "hapi": "^8.0.0",
     "istanbul-harmony": "^0.3.16",
     "jit-grunt": "^0.9.1",
     "load-grunt-config": "^0.17.2",
