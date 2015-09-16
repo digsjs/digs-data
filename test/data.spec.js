@@ -118,6 +118,12 @@ function digsDataSuite(DigsData) {
         expect(db_.createModel).to.have.been.calledOnce;
       });
     });
+
+    describe('types()', function() {
+      it('should return the types from Thinky', function() {
+        expect(data.types()).to.equal(require('thinky/lib/type'));
+      });
+    });
   });
 }
 
