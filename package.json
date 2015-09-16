@@ -1,6 +1,6 @@
 {
   "name": "digs-data",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Database interface for digs",
   "main": "lib/index.js",
   "author": "Christopher Hiller <boneskull@boneskull.com>",
