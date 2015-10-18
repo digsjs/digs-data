@@ -1,26 +1,16 @@
 'use strict';
 
-let digsLoggerSuite = require('digs-common/test/defines/suites/logger');
-let _ = require('digs-common').utils;
-let Promise = require('digs-common').Promise;
+const Promise = require('digs-common').Promise;
+const digsMock = require('digs-common/test/mocks/digs');
+const DigsData = require('../lib/data');
 
-function digsDataSuite(DigsData) {
+describe(`DigsData`, () => {
   let sandbox;
   let digs;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create('DigsData');
-    digs = {
-      namespace: 'digs',
-      project: 'home',
-      settings: {
-        app: {
-          namespace: 'digs',
-          project: 'home'
-        }
-      },
-      log: sandbox.stub()
-    };
+    digs = digsMock(sandbox, require('../lib/types'));
   });
 
   afterEach(function() {
@@ -125,7 +115,4 @@ function digsDataSuite(DigsData) {
       });
     });
   });
-}
-
-describe('DigsData',
-  _.partial(_.flow(digsLoggerSuite, digsDataSuite), require('../lib/data')));
+});
